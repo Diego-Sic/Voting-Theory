@@ -143,42 +143,50 @@ def borda(profile):
     winner = bordas_results.index(index_max)
     return winner
 
+
     
 def main():
-    #Settings
-    num_voters = 10
-    num_alternatives = 4
-    num_simulations = 100000
-    condorcet_winner_count = 0
-    condorcet_plurality = 0
-    condorcet_borda = 0
-    co_plu_bor_winner = 0
-    #Creating profile
-    for i in range(num_simulations):
-        profile = make_IC_profile(num_voters, num_alternatives)
-        matrix_profile = matrix(profile)
-        condorcet_winner = condercet(matrix_profile)
-        if condorcet_winner is not None:
-            condorcet_winner_count += 1
-            if condorcet_winner == borda(profile):
-                condorcet_borda += 1
-            if condorcet_winner == plurality(profile):
-                condorcet_plurality += 1
-        else:
-            copeland_winner = copeland(matrix_profile)
-            plurality_winner = plurality(profile)
-            borda_winner = borda(profile)
-            if copeland_winner == plurality_winner == borda_winner:
-                co_plu_bor_winner += 1
+    option_for_num_of_voters = [10, 25, 75, 100]
+    option_for_num_of_alternatives = range(2,10)
+    results = {}
+    for i in range(len(option_for_num_of_voters)):
+        for j in option_for_num_of_alternatives:
+            #Settings
+            num_voters = option_for_num_of_voters[i]
+            num_alternatives = j
+            num_simulations = 100000
+            condorcet_winner_count = 0
+            condorcet_plurality = 0
+            condorcet_borda = 0
+            co_plu_bor_winner = 0
+            #Creating profile
+            for i in range(num_simulations):
+                profile = make_IC_profile(num_voters, num_alternatives)
+                matrix_profile = matrix(profile)
+                condorcet_winner = condercet(matrix_profile)
+                if condorcet_winner is not None:
+                    condorcet_winner_count += 1
+                    if condorcet_winner == borda(profile):
+                        condorcet_borda += 1
+                    if condorcet_winner == plurality(profile):
+                        condorcet_plurality += 1
+                else:
+                    copeland_winner = copeland(matrix_profile)
+                    plurality_winner = plurality(profile)
+                    borda_winner = borda(profile)
+                    if copeland_winner == plurality_winner == borda_winner:
+                        co_plu_bor_winner += 1
 
-            
-    print(f"How many condorcet winner we have :{condorcet_winner_count}/{num_simulations}")
-    print(f'''How many times condorcet, 
-            and borda choose the same winner: {condorcet_borda}/{condorcet_winner_count}''')
-    print(f'''How many times condorcet, 
-            and plurality choose the same winner: {condorcet_plurality}/{condorcet_winner_count}''')
-    print(f'''How many times plurality, borda 
-            and copeland choose the same winner: {co_plu_bor_winner}/{num_simulations - condorcet_winner_count}''')
+                    
+            condorecet_result = f"condorecet_result{condorcet_winner_count}/{num_simulations}"
+            condorcet_borda_result = f"condorcet_borda_result{condorcet_borda}/{condorcet_winner_count}"
+            condorcet_plurality_result = f"condorcet_plurality_result{condorcet_plurality}/{condorcet_winner_count}"
+            copeland_plurality_borda_result = f"copeland_plurality_borda_result{co_plu_bor_winner}/{num_simulations - condorcet_winner_count}"
+            results[f"{i}_voters"] = [f"{j}_alternatives",
+                                    condorecet_result,
+                                    condorcet_borda_result,
+                                    condorcet_plurality_result,
+                                    copeland_plurality_borda_result]
 
 
 if __name__ == "__main__":
