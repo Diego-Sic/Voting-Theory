@@ -2,14 +2,32 @@ import copy
 import random
 
 def make_IC_profile(num_voters: int, num_alternatives:int):
-  alternatives = list(range(num_alternatives))
-  profile = []
-  for i in range(num_voters):
-      random.shuffle(alternatives)
-      profile.append(copy.copy(alternatives))
-  return profile
+    '''This part will create an Impartial Culture election
+    using a fixed amount of voters and alternatives
+    Argument:
+        This will recieve a integer describing the number of voters
+        and integer descrbing the number of alternatives to choose
+    Return:
+        will return a 2-D with the len of the list will be the
+        number of voters, and the length of each list will be
+        the number of alternatives'''
+    alternatives = list(range(num_alternatives))
+    profile = []
+    for i in range(num_voters):
+        random.shuffle(alternatives)
+        profile.append(copy.copy(alternatives))
+    return profile
 
 def matrix(profile):
+    '''This function will create a Matrix using the number of 
+    alternatives we have, the function storage in each position 
+    if the alternative is in the loop won or lost against all the
+    other alternatives
+    Argument:
+        A list with the ballots (profile)
+    Return:
+        A 2-D with the results of each alternative
+        against all the rest of alternatives'''
     data_base_matrix = []
     for i in range(len(profile[0])):
         results = []
@@ -34,16 +52,32 @@ def matrix(profile):
     return data_base_matrix
 
 def condercet(matrix_1):
+    '''This function will receive a matrix where each
+    row of it, is the number of time it won against each
+    alternative if there's a winner against all the other
+    alternatives will return that winner if there's not winner
+    will return None
+    Argument:
+        A 2-D list in form of a Matrix
+    Return:
+        A winner or a None'''
     for i in range(len(matrix_1)):
         if sum(matrix_1[i]) == len(matrix_1)-1:
             return i
     return None
 
 def copeland(matrix_1):
+    '''This function will receive a Matrix and will sum
+    how many times each alternative won and storage that sum in a list
+    and the end of the loop, will return the alternative with the highest
+    sum
+    Argument:
+        Matrix
+    Return:
+        A winner'''
     results_alternatives = []
     for i in range(len(matrix_1)):
-        results_alternatives.append(sum(matrix_1[i]))
-        
+        results_alternatives.append(sum(matrix_1[i]))  
     index_max = max(results_alternatives)
     if results_alternatives.count(index_max) > 1:
     # There are two or more maximum numbers in the list, so return None
@@ -55,6 +89,14 @@ def copeland(matrix_1):
     return winner
 
 def plurality(profile):
+    '''This function will check how many times each option
+    is selected as the first option for the voters, and will return
+    the one that has been selected the most
+    Argument:
+        A profile, a list with lists inside describing the order
+        of preference of every voter
+    Return:
+        An alternative (int) as a winner'''
     votes = []
     #This is the num of alternatives
     for i in range(len(profile[0])):
@@ -75,6 +117,14 @@ def plurality(profile):
     return winner
 
 def borda(profile):
+    '''This function will use the Borda method if weight
+    to weighted all the alternatives and return the one 
+    that has highest sum
+    Argument:
+        A profile, a list with lists inside describing the order
+        of preference of every voter
+    Return:
+        A integer describing the winner'''
     bordas_results = []
     for i in range(len(profile[0])):
         scores_of_alternative = 0
