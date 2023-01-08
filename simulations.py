@@ -146,8 +146,8 @@ def borda(profile):
 
     
 def main():
-    option_for_num_of_voters = [10]
-    option_for_num_of_alternatives = range(2,10)
+    option_for_num_of_voters = [10,15]
+    option_for_num_of_alternatives = range(2,11)
     results = {}
     for z in range(len(option_for_num_of_voters)):
         for j in option_for_num_of_alternatives:
@@ -177,16 +177,15 @@ def main():
                     if copeland_winner == plurality_winner == borda_winner:
                         co_plu_bor_winner += 1
 
-                    
-            condorecet_result = f"condorecet_result{condorcet_winner_count}/{num_simulations}"
-            condorcet_borda_result = f"condorcet_borda_result{condorcet_borda}/{condorcet_winner_count}"
-            condorcet_plurality_result = f"condorcet_plurality_result{condorcet_plurality}/{condorcet_winner_count}"
-            copeland_plurality_borda_result = f"copeland_plurality_borda_result{co_plu_bor_winner}/{num_simulations - condorcet_winner_count}"
-            results[f"{num_voters}_voters"] = [f"{j}_alternatives",
-                                    condorecet_result,
-                                    condorcet_borda_result,
-                                    condorcet_plurality_result,
-                                    copeland_plurality_borda_result]
+                condorecet_result = f"condorecet_result{condorcet_winner_count}/{num_simulations}"
+                condorcet_borda_result = f"condorcet_borda_result{condorcet_borda}/{condorcet_winner_count}"
+                condorcet_plurality_result = f"condorcet_plurality_result{condorcet_plurality}/{condorcet_winner_count}"
+                copeland_plurality_borda_result = f"copeland_plurality_borda_result{co_plu_bor_winner}/{num_simulations - condorcet_winner_count}"
+                results[f"{num_voters}_voters_num_of_alt: {num_alternatives}"] = [
+                                                                                    condorecet_result,
+                                                                                    condorcet_borda_result,
+                                                                                    condorcet_plurality_result,
+                                                                                    copeland_plurality_borda_result]
     print(results)
 
 
