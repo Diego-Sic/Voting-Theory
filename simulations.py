@@ -1,7 +1,7 @@
 import copy
 import random
-import matplotlib as plt
-
+from matplotlib import pyplot as plt
+import numpy as np
 
 def make_IC_profile(num_voters: int, num_alternatives:int):
     '''This part will create an Impartial Culture election
@@ -145,19 +145,27 @@ def borda(profile):
         winner = index_max
     winner = bordas_results.index(index_max)
     return winner
-
+#The axis-x has to be the voters
+#The axis-y has to be the percentage of coincidence
+#Each line has to be the number of alternatives
 
     
 def main():
-    option_for_num_of_voters = [10]
-    option_for_num_of_alternatives = range(3,5)
-    results = {}
+    option_for_num_of_voters = [10, 25, 50]
+    option_for_num_of_alternatives = [2,3,10]
+    x_lists = option_for_num_of_voters
+    y_lists_condorcet_existence = []
+    y_lists_condorcet_borda = []
+    y_lists_condorcet_plurality = []
     for z in range(len(option_for_num_of_voters)):
-        for j in option_for_num_of_alternatives:
+        results_for_z_voters = []
+        results_for_z_voters_borda = []
+        results_for_z_voters_plurality = []
+        for j in range(len(option_for_num_of_alternatives)):
             #Settings
             num_voters = option_for_num_of_voters[z]
-            num_alternatives = j
-            num_simulations = 100000
+            num_alternatives = option_for_num_of_alternatives[j]
+            num_simulations = 10000
             condorcet_winner_count = 0
             condorcet_plurality = 0
             condorcet_borda = 0
@@ -179,17 +187,50 @@ def main():
                     borda_winner = borda(profile)
                     if copeland_winner == plurality_winner == borda_winner:
                         co_plu_bor_winner += 1
+            
+            results_for_z_voters.append(condorcet_winner_count/num_simulations)
+            results_for_z_voters_borda.append(condorcet_borda/condorcet_winner_count)
+            results_for_z_voters_plurality.append(condorcet_plurality/condorcet_winner_count)
 
-                condorecet_result = f"condorecet_result{condorcet_winner_count}/{num_simulations}"
-                condorcet_borda_result = f"condorcet_borda_result{condorcet_borda}/{condorcet_winner_count}"
-                condorcet_plurality_result = f"condorcet_plurality_result{condorcet_plurality}/{condorcet_winner_count}"
-                copeland_plurality_borda_result = f"copeland_plurality_borda_result{co_plu_bor_winner}/{num_simulations - condorcet_winner_count}"
-                results[f"{num_voters}_voters_num_of_alt: {num_alternatives}"] = [
-                                                                                    condorecet_result,
-                                                                                    condorcet_borda_result,
-                                                                                    condorcet_plurality_result,
-                                                                                    copeland_plurality_borda_result]
-    print(results)
+        y_lists_condorcet_existence.append(results_for_z_voters)
+        y_lists_condorcet_borda.append(results_for_z_voters_borda)
+        y_lists_condorcet_plurality.append(results_for_z_voters_plurality)
+
+    description = [f"Alternatives = {option}" for option in option_for_num_of_alternatives]
+
+    #Plotting the graph of condorcet Existence
+    print(x_lists)
+    print(y_lists_condorcet_existence)
+    plt.plot(x_lists, y_lists_condorcet_existence, marker='s')
+    plt.xlabel("Number of voters")
+    plt.ylabel("Percentage of existence")
+    plt.title("Condorcet winner existence")
+    plt.legend(description)
+    fig = plt.gcf()
+    fig.savefig("Condorcet winner existence.png")
+
+    #Plotting the graph of Borda matching with Condorcet
+    print(x_lists)
+    print(y_lists_condorcet_borda)
+    plt.plot(x_lists, y_lists_condorcet_borda, marker='s')
+    plt.xlabel("Number of voters")
+    plt.ylabel("Percentage of existence")
+    plt.title("Condorcet and Borda coincidence")
+    plt.legend(description)
+    fig = plt.gcf()
+    fig.savefig("Condorcet and Borda coincidence.png")
+
+    #Plotting the graph of Borda matching with Condorcet
+    print(x_lists)
+    print(y_lists_condorcet_borda)
+    plt.plot(x_lists, y_lists_condorcet_borda, marker='s')
+    plt.xlabel("Number of voters")
+    plt.ylabel("Percentage of existence")
+    plt.title("Condorcet and Borda coincidence")
+    plt.legend(description)
+    fig = plt.gcf()
+    fig.savefig("Condorcet and Borda coincidence.png")
+
 
 
 if __name__ == "__main__":
