@@ -1,5 +1,7 @@
 import copy
 import random
+import matplotlib as plt
+
 
 def make_IC_profile(num_voters: int, num_alternatives:int):
     '''This part will create an Impartial Culture election
@@ -77,7 +79,8 @@ def copeland(matrix_1):
         A winner'''
     results_alternatives = []
     for i in range(len(matrix_1)):
-        results_alternatives.append(sum(matrix_1[i]))  
+        results_alternatives.append(sum(matrix_1[i]))
+
     index_max = max(results_alternatives)
     if results_alternatives.count(index_max) > 1:
     # There are two or more maximum numbers in the list, so return None
@@ -146,8 +149,8 @@ def borda(profile):
 
     
 def main():
-    option_for_num_of_voters = [10,15]
-    option_for_num_of_alternatives = range(2,11)
+    option_for_num_of_voters = [10]
+    option_for_num_of_alternatives = range(3,5)
     results = {}
     for z in range(len(option_for_num_of_voters)):
         for j in option_for_num_of_alternatives:
