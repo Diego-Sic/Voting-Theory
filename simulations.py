@@ -198,38 +198,35 @@ def main():
 
     description = [f"Alternatives = {option}" for option in option_for_num_of_alternatives]
 
-    #Plotting the graph of condorcet Existence
-    print(x_lists)
-    print(y_lists_condorcet_existence)
-    plt.plot(x_lists, y_lists_condorcet_existence, marker='s')
-    plt.xlabel("Number of voters")
-    plt.ylabel("Percentage of existence")
-    plt.title("Condorcet winner existence")
-    plt.legend(description)
-    fig = plt.gcf()
-    fig.savefig("Condorcet winner existence.png")
+    # #Plotting the graph of condorcet Existence
+    # print(y_lists_condorcet_existence)
+    # plt.plot(x_lists, y_lists_condorcet_existence, marker='s')
+    # plt.xlabel("Number of voters")
+    # plt.ylabel("Percentage of existence")
+    # plt.title("Condorcet winner existence")
+    # plt.legend(description)
+    # fig = plt.gcf()
+    # fig.savefig("Condorcet winner existence.png")
+ 
+    # #Plotting the graph of Borda matching with Condorcet
+    # print(y_lists_condorcet_borda)
+    # plt.plot(x_lists, y_lists_condorcet_borda, marker='p')
+    # plt.xlabel("Number of voters")
+    # plt.ylabel("Percentage of existence")
+    # plt.title("Condorcet and Borda coincidence")
+    # plt.legend(description)
+    # fig_2 = plt.gcf()
+    # fig_2.savefig("Condorcet and Borda coincidence.png")
 
     #Plotting the graph of Borda matching with Condorcet
-    print(x_lists)
-    print(y_lists_condorcet_borda)
-    plt.plot(x_lists, y_lists_condorcet_borda, marker='s')
+    print(y_lists_condorcet_plurality)
+    plt.plot(x_lists, y_lists_condorcet_plurality, marker='*')
     plt.xlabel("Number of voters")
     plt.ylabel("Percentage of existence")
-    plt.title("Condorcet and Borda coincidence")
+    plt.title("Condorcet and Plurality coincidence")
     plt.legend(description)
-    fig = plt.gcf()
-    fig.savefig("Condorcet and Borda coincidence.png")
-
-    #Plotting the graph of Borda matching with Condorcet
-    print(x_lists)
-    print(y_lists_condorcet_borda)
-    plt.plot(x_lists, y_lists_condorcet_borda, marker='s')
-    plt.xlabel("Number of voters")
-    plt.ylabel("Percentage of existence")
-    plt.title("Condorcet and Borda coincidence")
-    plt.legend(description)
-    fig = plt.gcf()
-    fig.savefig("Condorcet and Borda coincidence.png")
+    fig_3 = plt.gcf()
+    fig_3.savefig("Condorcet and plurality coincidence.png")
 
 
 
