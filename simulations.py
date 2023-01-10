@@ -151,16 +151,34 @@ def borda(profile):
 
     
 def main():
-    option_for_num_of_voters = [10, 25, 50]
-    option_for_num_of_alternatives = [2,3,10]
+    option_for_num_of_voters = [3, 10, 25, 50, 100]
+    option_for_num_of_alternatives = [2, 3, 10, 15, 20]
     x_lists = option_for_num_of_voters
+    #Firt question
     y_lists_condorcet_existence = []
+    #Second question
     y_lists_condorcet_borda = []
+    #Thir question
     y_lists_condorcet_plurality = []
+    #Fourth question
+    y_lists_no_condorcet_co_plu = []
+    y_lists_no_condorcet_co_bor = []
+    y_lists_no_condorcet_bor_plu = []
+    y_lists_no_condorcet_co_plu_bor = []
+
+
     for z in range(len(option_for_num_of_voters)):
+        #First question
         results_for_z_voters = []
+        #Second question
         results_for_z_voters_borda = []
+        #Third Question
         results_for_z_voters_plurality = []
+        #Fourth question
+        results_for_z_voters_no_condorcet_co_plu = []
+        results_for_z_voters_no_condorcet_co_bor = []
+        results_for_z_voters_no_condorcet_bor_plu = []
+        results_for_z_voters_no_condorcet_co_plu_bor = []
         for j in range(len(option_for_num_of_alternatives)):
             #Settings
             num_voters = option_for_num_of_voters[z]
@@ -170,6 +188,9 @@ def main():
             condorcet_plurality = 0
             condorcet_borda = 0
             co_plu_bor_winner = 0
+            co_plu_winner = 0
+            co_bor_winner = 0
+            bor_plu_winner = 0
             #Creating profile
             for i in range(num_simulations):
                 profile = make_IC_profile(num_voters, num_alternatives)
@@ -185,49 +206,124 @@ def main():
                     copeland_winner = copeland(matrix_profile)
                     plurality_winner = plurality(profile)
                     borda_winner = borda(profile)
-                    if copeland_winner == plurality_winner == borda_winner:
+                    if copeland_winner == plurality_winner:
+                        co_plu_winner += 1
+                    if copeland_winner == borda_winner:
+                        co_bor_winner += 1
+                    if borda_winner == plurality_winner:
+                        bor_plu_winner += 1
+                    if (copeland_winner == plurality_winner) and (plurality_winner == borda_winner) and (borda_winner == copeland_winner):
                         co_plu_bor_winner += 1
-            
-            results_for_z_voters.append(condorcet_winner_count/num_simulations)
-            results_for_z_voters_borda.append(condorcet_borda/condorcet_winner_count)
-            results_for_z_voters_plurality.append(condorcet_plurality/condorcet_winner_count)
 
+            #First question
+            results_for_z_voters.append(condorcet_winner_count/num_simulations)
+            #Second Question
+            results_for_z_voters_borda.append(condorcet_borda/condorcet_winner_count)
+            #Third Question
+            results_for_z_voters_plurality.append(condorcet_plurality/condorcet_winner_count)
+            #Fourth question
+            if (num_simulations - condorcet_winner_count) != 0:
+                results_for_z_voters_no_condorcet_co_plu.append(co_plu_winner/(num_simulations - condorcet_winner_count))
+                results_for_z_voters_no_condorcet_co_bor.append(co_bor_winner/(num_simulations - condorcet_winner_count))
+                results_for_z_voters_no_condorcet_bor_plu.append(bor_plu_winner/(num_simulations - condorcet_winner_count))
+                results_for_z_voters_no_condorcet_co_plu_bor.append(co_plu_bor_winner/(num_simulations - condorcet_winner_count))
+            else:
+                results_for_z_voters_no_condorcet_co_plu.append(0)
+                results_for_z_voters_no_condorcet_co_bor.append(0)
+                results_for_z_voters_no_condorcet_bor_plu.append(0)
+                results_for_z_voters_no_condorcet_co_plu_bor.append(0)
+
+
+        #First question
         y_lists_condorcet_existence.append(results_for_z_voters)
+        #Second question
         y_lists_condorcet_borda.append(results_for_z_voters_borda)
+        #Third question
         y_lists_condorcet_plurality.append(results_for_z_voters_plurality)
+        #Fourth question
+        y_lists_no_condorcet_co_plu.append(results_for_z_voters_no_condorcet_co_plu)
+        y_lists_no_condorcet_co_bor.append(results_for_z_voters_no_condorcet_co_bor)
+        y_lists_no_condorcet_bor_plu.append(results_for_z_voters_no_condorcet_bor_plu)
+        y_lists_no_condorcet_co_plu_bor.append(results_for_z_voters_no_condorcet_co_plu_bor)
+
 
     description = [f"Alternatives = {option}" for option in option_for_num_of_alternatives]
+    #Plotting the graph of condorcet Existence
 
-    # #Plotting the graph of condorcet Existence
-    # print(y_lists_condorcet_existence)
-    # plt.plot(x_lists, y_lists_condorcet_existence, marker='s')
-    # plt.xlabel("Number of voters")
-    # plt.ylabel("Percentage of existence")
-    # plt.title("Condorcet winner existence")
-    # plt.legend(description)
-    # fig = plt.gcf()
-    # fig.savefig("Condorcet winner existence.png")
- 
-    # #Plotting the graph of Borda matching with Condorcet
-    # print(y_lists_condorcet_borda)
-    # plt.plot(x_lists, y_lists_condorcet_borda, marker='p')
-    # plt.xlabel("Number of voters")
-    # plt.ylabel("Percentage of existence")
-    # plt.title("Condorcet and Borda coincidence")
-    # plt.legend(description)
-    # fig_2 = plt.gcf()
-    # fig_2.savefig("Condorcet and Borda coincidence.png")
-
-    #Plotting the graph of Borda matching with Condorcet
-    print(y_lists_condorcet_plurality)
-    plt.plot(x_lists, y_lists_condorcet_plurality, marker='*')
+    plt.plot(x_lists, y_lists_condorcet_existence, marker='s')
     plt.xlabel("Number of voters")
     plt.ylabel("Percentage of existence")
+    plt.title("Condorcet winner existence")
+    plt.legend(description)
+    fig = plt.gcf()
+    fig.savefig("Condorcet winner existence.png")
+    plt.show()
+ 
+    #Plotting the graph of Borda matching with Condorcet
+
+    plt.plot(x_lists, y_lists_condorcet_borda, marker='p')
+    plt.xlabel("Number of voters")
+    plt.ylabel("Percentage of matching")
+    plt.title("Condorcet and Borda coincidence")
+    plt.legend(description)
+    fig_2 = plt.gcf()
+    fig_2.savefig("Condorcet and Borda coincidence.png")
+    plt.show()
+
+    #Plotting the graph of Borda matching with Condorcet
+    plt.plot(x_lists, y_lists_condorcet_plurality, marker='*')
+    plt.xlabel("Number of voters")
+    plt.ylabel("Percentage of matching")
     plt.title("Condorcet and Plurality coincidence")
     plt.legend(description)
     fig_3 = plt.gcf()
     fig_3.savefig("Condorcet and plurality coincidence.png")
+    plt.show()
+    
 
+    ################################################################
+    ################################################################
+    ################################################################
+
+    #Plotting the graph of Borda matching with Copeland
+    plt.plot(x_lists, y_lists_no_condorcet_co_bor, marker='*')
+    plt.xlabel("Number of voters")
+    plt.ylabel("Percentage of matching")
+    plt.title("Borda matching with Copeland")
+    plt.legend(description)
+    fig_4 = plt.gcf()
+    fig_4.savefig("Borda matching with Copeland.png")
+    plt.show()
+
+    #Plotting the graph of plurality matching with Copeland
+    plt.plot(x_lists, y_lists_no_condorcet_co_plu, marker='*')
+    plt.xlabel("Number of voters")
+    plt.ylabel("Percentage of matching")
+    plt.title("Plurality matching with Copeland")
+    plt.legend(description)
+    fig_4 = plt.gcf()
+    fig_4.savefig("Plurality matching with Copeland.png")
+    plt.show()
+    
+    #Plotting the graph of Borda matching with plurality
+    plt.plot(x_lists, y_lists_no_condorcet_bor_plu, marker='*')
+    plt.xlabel("Number of voters")
+    plt.ylabel("Percentage of matching")
+    plt.title("Borda matching with plurality")
+    plt.legend(description)
+    fig_4 = plt.gcf()
+    fig_4.savefig("Borda matching with plurality.png")
+    plt.show()
+
+    #Plotting the graph of Borda matching with plurality
+    plt.plot(x_lists, y_lists_no_condorcet_co_plu_bor, marker='*')
+    plt.xlabel("Number of voters")
+    plt.ylabel("Percentage of matching")
+    plt.title("Copeland, plurality, and Borda Matching")
+    plt.legend(description)
+    fig_4 = plt.gcf()
+    fig_4.savefig("Copeland, plurality, and Borda Matching.png")
+    plt.show()
 
 
 if __name__ == "__main__":
