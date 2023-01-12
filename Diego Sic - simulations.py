@@ -151,8 +151,8 @@ def borda(profile):
 
     
 def main():
-    option_for_num_of_voters = [3, 10, 25, 50, 100]
-    option_for_num_of_alternatives = [2, 3, 10, 15, 20]
+    option_for_num_of_voters = [3, 10, 25, 50, 75, 100]
+    option_for_num_of_alternatives = [2, 3, 10, 15, 20, 25, 30]
     x_lists = option_for_num_of_voters
     #Firt question
     y_lists_condorcet_existence = []
@@ -256,7 +256,7 @@ def main():
     plt.title("Condorcet winner existence")
     plt.legend(description)
     fig = plt.gcf()
-    fig.savefig("Condorcet winner existence.png")
+    fig.savefig("1 - Condorcet winner existence.png")
     plt.show()
  
     #Plotting the graph of Borda matching with Condorcet
@@ -267,7 +267,7 @@ def main():
     plt.title("Condorcet and Borda coincidence")
     plt.legend(description)
     fig_2 = plt.gcf()
-    fig_2.savefig("Condorcet and Borda coincidence.png")
+    fig_2.savefig("2 - Condorcet and Borda coincidence.png")
     plt.show()
 
     #Plotting the graph of Borda matching with Condorcet
@@ -277,7 +277,7 @@ def main():
     plt.title("Condorcet and Plurality coincidence")
     plt.legend(description)
     fig_3 = plt.gcf()
-    fig_3.savefig("Condorcet and plurality coincidence.png")
+    fig_3.savefig("3 - Condorcet and plurality coincidence.png")
     plt.show()
     
 
@@ -292,7 +292,7 @@ def main():
     plt.title("Borda matching with Copeland")
     plt.legend(description)
     fig_4 = plt.gcf()
-    fig_4.savefig("Borda matching with Copeland.png")
+    fig_4.savefig("4.1 - Borda matching with Copeland.png")
     plt.show()
 
     #Plotting the graph of plurality matching with Copeland
@@ -302,7 +302,7 @@ def main():
     plt.title("Plurality matching with Copeland")
     plt.legend(description)
     fig_4 = plt.gcf()
-    fig_4.savefig("Plurality matching with Copeland.png")
+    fig_4.savefig("4.2 - Plurality matching with Copeland.png")
     plt.show()
     
     #Plotting the graph of Borda matching with plurality
@@ -312,7 +312,7 @@ def main():
     plt.title("Borda matching with plurality")
     plt.legend(description)
     fig_4 = plt.gcf()
-    fig_4.savefig("Borda matching with plurality.png")
+    fig_4.savefig("4.3 - Borda matching with plurality.png")
     plt.show()
 
     #Plotting the graph of Borda matching with plurality
@@ -322,7 +322,7 @@ def main():
     plt.title("Copeland, plurality, and Borda Matching")
     plt.legend(description)
     fig_4 = plt.gcf()
-    fig_4.savefig("Copeland, plurality, and Borda Matching.png")
+    fig_4.savefig("4.4 - Copeland, plurality, and Borda Matching.png")
     plt.show()
 
 
